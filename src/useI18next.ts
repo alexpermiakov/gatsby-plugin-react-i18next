@@ -26,9 +26,12 @@ export const useI18next = (ns?: Namespace, options?: UseTranslationOptions) => {
     return pathname;
   };
 
-  const removeLocalePart = (pathname: string) => {
+  const removeLocalePart = (pathname: string, hasCountryCode: boolean) => {
     if (!routed) return pathname;
-    const i = pathname.indexOf(`/`, 1);
+    let i = pathname.indexOf(`/`, 1);
+    if (hasCountryCode) {
+      i = pathname.indexOf(`/`, i + 1);
+    }
     return pathname.substring(i);
   };
 
@@ -41,8 +44,9 @@ export const useI18next = (ns?: Namespace, options?: UseTranslationOptions) => {
   const changeLanguage = (language: string, to?: string, options?: NavigateOptions<{}>) => {
     const localeLang = language.toLowerCase().split('_').reverse().join('/');
     const languagePath = getLanguagePath(localeLang);
-    const pathname = to || removeLocalePart(removePrefix(window.location.pathname));
-    const link = `/${languagePath}${pathname}${window.location.search}`;
+    const pathname =
+      to || removeLocalePart(removePrefix(window.location.pathname), localeLang.includes('/'));
+    const link = `${languagePath}${pathname}${window.location.search}`;
     localStorage.setItem(LANGUAGE_KEY, language);
     return gatsbyNavigate(link, options);
   };

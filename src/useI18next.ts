@@ -40,10 +40,9 @@ export const useI18next = (ns?: Namespace, options?: UseTranslationOptions) => {
 
   const changeLanguage = (language: string, to?: string, options?: NavigateOptions<{}>) => {
     const localeLang = language.toLowerCase().split('_').reverse().join('/');
-    console.log('LOL', language, localeLang);
     const languagePath = getLanguagePath(localeLang);
     const pathname = to || removeLocalePart(removePrefix(window.location.pathname));
-    const link = `${languagePath}${pathname}${window.location.search}`;
+    const link = `/${languagePath}${pathname}${window.location.search}`;
     localStorage.setItem(LANGUAGE_KEY, language);
     return gatsbyNavigate(link, options);
   };

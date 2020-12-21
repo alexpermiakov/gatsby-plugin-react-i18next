@@ -30,7 +30,7 @@ export const useI18next = (ns?: Namespace, options?: UseTranslationOptions) => {
     if (!routed) return pathname;
     let i = pathname.indexOf(`/`, 1);
     console.log(pathname, /^.{2}\/.{2}(?=\/|$)/.test(pathname));
-    if (/^.{2}\/.{2}(?=\/|$)/.test(pathname)) {
+    if (/^\/.{2}\/.{2}(?=\/|$)/.test(pathname)) {
       i = pathname.indexOf(`/`, i + 1);
     }
     console.log(i, pathname.substring(i));
